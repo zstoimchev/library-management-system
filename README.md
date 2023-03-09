@@ -18,22 +18,33 @@ Features:
 - Load inventory data from a file
 
 Tools Used:
-	- C language
-	- File handling
-	- Data structures (linked lists)
-	- Command-line interface
+- C language
+
+- File handling
+
+- Data structures (linked lists)
+
+- Command-line interface
 
 Skills demonstrated:
-	- File handling
-	- Data structure implementation
-	- Command-line interface implementation
-	- Debugging and testing
+
+- File handling
+
+- Data structure implementation
+
+- Command-line interface implementation
+
+- Debugging and testing
 
 Possible improvements:
-	- Graphical user interface
-	- Database integration
-	- User authentication and authorization
-	- Barcode scanning and recognition
+
+- Graphical user interface
+
+- Database integration
+
+- User authentication and authorization
+
+- Barcode scanning and recognition
 
 Overall, this project demonstrates proficiency in C programming, file handling, data structures, and command-line interface implementation. It also showcases the ability to design and implement a functional program that solves a real-world problem.
-![image](https://user-images.githubusercontent.com/62955474/224174065-8d40ebb6-4a1a-413a-9998-62e47b6d3d0b.png)
+<!-- ![image](https://user-images.githubusercontent.com/62955474/224174065-8d40ebb6-4a1a-413a-9998-62e47b6d3d0b.png) -->
