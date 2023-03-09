@@ -17,13 +17,13 @@ Description: This project is a command-line based book inventory management syst
 - Data structures (linked lists)
 - Command-line interface
 
-</b>Skills demonstrated:</b>
+<b>Skills demonstrated:</b>
 - File handling
 - Data structure implementation
 - Command-line interface implementation
 - Debugging and testing
 
-</b>Possible improvements:</b>
+<b>Possible improvements:</b>
 - Graphical user interface
 - Database integration
 - User authentication and authorization
