@@ -4,17 +4,11 @@ Description: This project is a command-line based book inventory management syst
 
 Features:
 - Add books to the inventory
-
 - Delete books from the inventory
-
 - Modify book details in the inventory
-
 - Search for books by title or author
-
 - Display the entire inventory
-
 - Save inventory data to a file
-
 - Load inventory data from a file
 
 Tools Used:
