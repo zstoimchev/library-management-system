@@ -2,7 +2,7 @@
 
 Description: This project is a command-line based book inventory management system that allows the user to keep track of their book collection. The system allows the user to add, delete, and modify books in their inventory. It also includes a search feature that allows the user to search for a book by its title or author.
 
-Features:
+<b>Features:</b>
 - Add books to the inventory
 - Delete books from the inventory
 - Modify book details in the inventory
@@ -11,33 +11,22 @@ Features:
 - Save inventory data to a file
 - Load inventory data from a file
 
-Tools Used:
+<b>Tools Used:</b>
 - C language
-
 - File handling
-
 - Data structures (linked lists)
-
 - Command-line interface
 
-Skills demonstrated:
-
+</b>Skills demonstrated:</b>
 - File handling
-
 - Data structure implementation
-
 - Command-line interface implementation
-
 - Debugging and testing
 
-Possible improvements:
-
+</b>Possible improvements:</b>
 - Graphical user interface
-
 - Database integration
-
 - User authentication and authorization
-
 - Barcode scanning and recognition
 
 Overall, this project demonstrates proficiency in C programming, file handling, data structures, and command-line interface implementation. It also showcases the ability to design and implement a functional program that solves a real-world problem.
