@@ -33,6 +33,7 @@ public class AuthorsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = authorModel.Id }, authorModel);
     }
 
+    [HttpGet("{id}")]
     public IActionResult GetById([FromRoute] int id)
     {
         var author = _context.Authors.Find(id);
