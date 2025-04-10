@@ -3,7 +3,6 @@ using System;
 using LibraryManagement.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,11 +11,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LibraryManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250410174549_init")]
-    partial class init
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace LibraryManagement.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LibraryManagement.Models.Author", b =>
+            modelBuilder.Entity("LibraryManagementApi.Models.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +43,7 @@ namespace LibraryManagement.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("LibraryManagement.Models.Book", b =>
+            modelBuilder.Entity("LibraryManagementApi.Models.Book", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,16 +68,16 @@ namespace LibraryManagement.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("LibraryManagement.Models.Book", b =>
+            modelBuilder.Entity("LibraryManagementApi.Models.Book", b =>
                 {
-                    b.HasOne("LibraryManagement.Models.Author", "Author")
+                    b.HasOne("LibraryManagementApi.Models.Author", "Author")
                         .WithMany("Books")
                         .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("LibraryManagement.Models.Author", b =>
+            modelBuilder.Entity("LibraryManagementApi.Models.Author", b =>
                 {
                     b.Navigation("Books");
                 });
