@@ -60,3 +60,5 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
+appsettings.Development.json
