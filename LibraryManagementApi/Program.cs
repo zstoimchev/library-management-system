@@ -1,4 +1,6 @@
 using LibraryManagement.Data;
+using LibraryManagement.Repositories;
+using LibraryManagement.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<AuthorService>();
+builder.Services.AddScoped<BookService>();
 
 var app = builder.Build();
 

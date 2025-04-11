@@ -1,6 +1,5 @@
-using LibraryManagement.Data;
 using LibraryManagement.Dtos;
-using LibraryManagement.Mappers;
+using LibraryManagement.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.Controllers;
@@ -9,37 +8,26 @@ namespace LibraryManagement.Controllers;
 [ApiController]
 public class AuthorsController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly AuthorService _authorService;
 
-    public AuthorsController(ApplicationDbContext context)
+    public AuthorsController(AuthorService authorService)
     {
-        this._context = context;
+        this._authorService = authorService;
     }
 
+    // GET /authors: Fetch a list of all authors
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<ActionResult<List<AuthorResponseDto>>> GetAllAuthors()
     {
-        var authors = _context.Authors.ToList()
-            .Select(item => item.ToAuthorDto());
-        return Ok(authors);
+        var authors = await _authorService.GetAllAuthorsAsync();
+        return authors.Count != 0 ? Ok(authors) : NotFound();
     }
 
+    // POST /authors: Add a new author
     [HttpPost]
-    public IActionResult Create([FromBody] AuthorRequest author)
+    public async Task<ActionResult<AuthorResponseDto>> Create([FromBody] AuthorRequestDto authorRequestDto)
     {
-        var authorModel = author.ToAuthorFromRequest();
-        _context.Authors.Add(authorModel);
-        _context.SaveChanges();
-        return CreatedAtAction(nameof(GetById), new { id = authorModel.Id }, authorModel);
-    }
-
-    [HttpGet("{id}")]
-    public IActionResult GetById([FromRoute] int id)
-    {
-        var author = _context.Authors.Find(id);
-        if (author == null)
-            return NotFound();
-
-        return Ok(author.ToAuthorDto());
+        var createdAuthor = await _authorService.CreateAuthor(authorRequestDto);
+        return CreatedAtAction(nameof(GetAllAuthors), new { id = createdAuthor.Id }, createdAuthor);
     }
 }

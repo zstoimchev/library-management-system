@@ -5,20 +5,20 @@ namespace LibraryManagement.Mappers;
 
 public static class AuthorMappers
 {
-    public static AuthorDto ToAuthorDto(this Author author)
+    public static Author ToAuthorFromRequest(this AuthorRequestDto author)
     {
-        return new AuthorDto
+        return new Author
         {
-            Id = author.Id,
             Name = author.Name,
             DateOfBirth = author.DateOfBirth
         };
     }
 
-    public static Author ToAuthorFromRequest(this AuthorRequest author)
+    public static AuthorResponseDto ToAuthorResponse(this Author author)
     {
-        return new Author
+        return new AuthorResponseDto
         {
+            Id = author.Id,
             Name = author.Name,
             DateOfBirth = author.DateOfBirth
         };

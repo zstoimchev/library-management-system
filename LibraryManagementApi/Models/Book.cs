@@ -1,11 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace LibraryManagement.Models;
 
+[Table("Books")]
 public class Book
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-    public string Title { get; set; } = string.Empty;
-    public int PublicationYear { get; set; }
-    public int? AuthorId { get; set; }
-    public Author? Author { get; set; }
     
+    [Required]
+    [MaxLength(255)]
+    public string Title { get; set; } = string.Empty;
+    
+    [Required]
+    public int PublicationYear { get; set; }
+    
+    [Required]
+    public int AuthorId { get; set; }
+    public Author? Author { get; set; }
 }
