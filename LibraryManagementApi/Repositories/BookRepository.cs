@@ -52,4 +52,14 @@ public class BookRepository : IBookRepository
         await _context.SaveChangesAsync();
         return book;
     }
+
+    public async Task<List<Book>> SearchAsync(string query)
+    {
+        var queryResult = _context.Books.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(query))
+            queryResult = queryResult.Where(b => b.Title.Contains(query));
+        
+        return await queryResult.ToListAsync();
+    }
 }

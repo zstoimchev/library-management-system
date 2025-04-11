@@ -48,4 +48,12 @@ public class BookController : ControllerBase
         var book = await _bookService.DeleteBook(id);
         return book is not null ? NoContent() : NotFound();
     }
+
+    // GET /books/search?query=<query>: Search for books by title using a similarity search
+    [HttpGet("search")]
+    public async Task<ActionResult<List<BookResponseDto>>> SearchBooks([FromQuery] string query)
+    {
+        var books = await _bookService.SearchBooksAsync(query);
+        return books.Count > 0 ? Ok(books) : NotFound();
+    }
 }

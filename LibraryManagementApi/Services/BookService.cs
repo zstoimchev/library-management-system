@@ -38,4 +38,10 @@ public class BookService
         var deletedBook = await _bookRepository.DeleteAsync(id);
         return deletedBook?.ToBookResponse();
     }
+
+    public async Task<List<BookResponseDto>> SearchBooksAsync(string query)
+    {
+        var books = await _bookRepository.SearchAsync(query);
+        return books.Select(b => b.ToBookResponse()).ToList();
+    }
 }
