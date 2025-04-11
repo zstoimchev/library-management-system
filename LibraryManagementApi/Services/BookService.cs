@@ -25,5 +25,17 @@ public class BookService
         var createdBook = await _bookRepository.CreateAsync(book);
         return createdBook.ToBookResponse();
     }
-    
+
+    public async Task<BookResponseDto?> UpdateBook(int id, BookRequestDto bookRequestDto)
+    {
+        var book = bookRequestDto.ToBookFromRequest();
+        var updatedBook = await _bookRepository.UpdateAsync(id, book);
+        return updatedBook?.ToBookResponse();
+    }
+
+    public async Task<BookResponseDto?> DeleteBook(int id)
+    {
+        var deletedBook = await _bookRepository.DeleteAsync(id);
+        return deletedBook?.ToBookResponse();
+    }
 }

@@ -27,36 +27,25 @@ public class BookController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<BookResponseDto>> Create([FromBody] BookRequestDto bookRequestDto)
     {
-        // return Ok(await _bookService.CreateBook(bookDto));
         var createdBook = await _bookService.CreateBook(bookRequestDto);
         return CreatedAtAction(nameof(GetAllBooks), new { id = createdBook.Id }, createdBook);
     }
 
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     // PUT /books/{id}: Update an existing book's details
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> UpdateBook([FromRoute] int id, [FromBody] BookDto bookDto)
-    // {
-    //     var book = await _bookService.UpdateBook(id, bookDto);
-    //     return Ok(book);
-    // }
+    [HttpPut("{id}")]
+    public async Task<ActionResult<BookResponseDto>> UpdateBook([FromRoute] int id,
+        [FromBody] BookRequestDto bookRequestDto)
+    {
+        var book = await _bookService.UpdateBook(id, bookRequestDto);
+        return book is not null ? Ok(book) : NotFound();
+    }
 
     // DELETE /books/{id}: Delete a book by its ID
-    // [HttpDelete("{id}")]
-    // public Task<IActionResult> DeleteBook(int id)
-    // {
-    // }
-
-
-    // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<Book>> CreateBook(BookDto bookDto)
-    // {
-    //     var book = await _bookService.CreateBook(bookDto);
-    //     return Created("", book);
-    // }
-
-    // private bool BookExists(int id)
-    // {
-    //     return _context.Books.Any(e => e.Id == id);
-    // }
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteBook(int id)
+    {
+        var book = await _bookService.DeleteBook(id);
+        return book is not null ? NoContent() : NotFound();
+    }
 }

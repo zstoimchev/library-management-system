@@ -12,6 +12,7 @@ public class BookRepository : IBookRepository
     {
         this._context = context;
     }
+
     public async Task<List<Book>> GetAllAsync()
     {
         return await _context.Books.ToListAsync();
@@ -23,5 +24,32 @@ public class BookRepository : IBookRepository
         await _context.SaveChangesAsync();
         return book;
     }
-    
+
+    public async Task<Book?> UpdateAsync(int id, Book book)
+    {
+        var bookToUpdate = await _context.Books.FirstOrDefaultAsync(x => x.Id == id);
+        if (bookToUpdate is null)
+        {
+            return null;
+        }
+
+        bookToUpdate.Title = book.Title;
+        bookToUpdate.PublicationYear = book.PublicationYear;
+        bookToUpdate.AuthorId = book.AuthorId;
+        await _context.SaveChangesAsync();
+        return bookToUpdate;
+    }
+
+    public async Task<Book?> DeleteAsync(int id)
+    {
+        var book = await _context.Books.FirstOrDefaultAsync(x => x.Id == id);
+        if (book is null)
+        {
+            return null;
+        }
+
+        _context.Books.Remove(book);
+        await _context.SaveChangesAsync();
+        return book;
+    }
 }
