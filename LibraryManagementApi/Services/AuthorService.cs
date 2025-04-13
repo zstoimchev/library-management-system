@@ -21,6 +21,7 @@ public class AuthorService
 
     public async Task<AuthorResponseDto> CreateAuthor(AuthorRequestDto authorRequestDto)
     {
+        // TODO: Validate the request
         var author = authorRequestDto.ToAuthorFromRequest();
         var createdAuthor = await _authorRepository.CreateAsync(author);
         return createdAuthor.ToAuthorResponse();

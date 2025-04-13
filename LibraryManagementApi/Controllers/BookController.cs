@@ -17,7 +17,8 @@ public class BookController : ControllerBase
 
     // GET /books: Fetch a paginated list of books
     [HttpGet]
-    public async Task<ActionResult<List<BookResponseDto>>> GetAllBooks([FromQuery] int pageNumber, [FromQuery] int pageSize)
+    public async Task<ActionResult<List<BookResponseDto>>> GetAllBooks([FromQuery] int pageNumber,
+        [FromQuery] int pageSize)
     {
         var books = await _bookService.GetAllBooksAsync(pageNumber, pageSize);
         return books.Count != 0 ? Ok(books) : NotFound();
