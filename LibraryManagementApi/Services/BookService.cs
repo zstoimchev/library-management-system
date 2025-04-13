@@ -13,9 +13,9 @@ public class BookService
         _bookRepository = bookRepository;
     }
 
-    public async Task<List<BookResponseDto>> GetAllBooksAsync()
+    public async Task<List<BookResponseDto>> GetAllBooksAsync(int pageNumber, int pageSize)
     {
-        var books = await _bookRepository.GetAllAsync();
+        var books = await _bookRepository.GetAllAsync(pageNumber, pageSize);
         return books.Select(item => item.ToBookResponse()).ToList();
     }
 

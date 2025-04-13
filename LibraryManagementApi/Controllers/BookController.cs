@@ -17,9 +17,9 @@ public class BookController : ControllerBase
 
     // GET /books: Fetch a paginated list of books
     [HttpGet]
-    public async Task<ActionResult<List<BookResponseDto>>> GetAllBooks()
+    public async Task<ActionResult<List<BookResponseDto>>> GetAllBooks([FromQuery] int pageNumber, [FromQuery] int pageSize)
     {
-        var books = await _bookService.GetAllBooksAsync();
+        var books = await _bookService.GetAllBooksAsync(pageNumber, pageSize);
         return books.Count != 0 ? Ok(books) : NotFound();
     }
 
@@ -33,7 +33,7 @@ public class BookController : ControllerBase
 
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     // PUT /books/{id}: Update an existing book's details
-    [HttpPut("{id}")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult<BookResponseDto>> UpdateBook([FromRoute] int id,
         [FromBody] BookRequestDto bookRequestDto)
     {
@@ -42,7 +42,7 @@ public class BookController : ControllerBase
     }
 
     // DELETE /books/{id}: Delete a book by its ID
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteBook(int id)
     {
         var book = await _bookService.DeleteBook(id);

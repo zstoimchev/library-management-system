@@ -13,9 +13,10 @@ public class BookRepository : IBookRepository
         this._context = context;
     }
 
-    public async Task<List<Book>> GetAllAsync()
+    public async Task<List<Book>> GetAllAsync(int pageNumber, int pageSize)
     {
-        return await _context.Books.ToListAsync();
+        return await _context.Books.Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize).ToListAsync();
     }
 
     public async Task<Book> CreateAsync(Book book)
@@ -59,7 +60,7 @@ public class BookRepository : IBookRepository
 
         if (!string.IsNullOrWhiteSpace(query))
             queryResult = queryResult.Where(b => b.Title.Contains(query));
-        
+
         return await queryResult.ToListAsync();
     }
 }
