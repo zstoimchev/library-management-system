@@ -1,9 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+using LibraryManagement.Validators;
+
 namespace LibraryManagement.Dtos;
 
 public class BookRequestDto
 {
-    // TODO: Add validation attributes
-    public string Title { get; set; } = string.Empty;
-    public int PublicationYear { get; set; }
-    public int AuthorId { get; set; }
+    [Required] [TitleValidation] public string Title { get; set; } = string.Empty;
+
+    [Required] [YearValidation] public int PublicationYear { get; set; }
+
+    [Required] public int AuthorId { get; set; }
 }
