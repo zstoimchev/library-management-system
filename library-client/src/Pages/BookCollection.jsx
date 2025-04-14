@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBooks} from "../Store/bookSlice";
 import {fetchAuthors} from "../Store/authorSlice";
@@ -9,15 +9,17 @@ const BookCollection = () => {
     const authors = useSelector((state) => state.authors.authors);
     const bookStatus = useSelector((state) => state.books.status);
     const authorStatus = useSelector((state) => state.authors.status);
+    const [pageNumber, setPageNumber] = useState(1);
+    const pageSize = 10;
 
     useEffect(() => {
         if (bookStatus === "idle") {
-            dispatch(fetchBooks());
+            dispatch(fetchBooks({pageNumber, pageSize}));
         }
         if (authorStatus === "idle") {
             dispatch(fetchAuthors());
         }
-    }, [bookStatus, authorStatus, dispatch]);
+    }, [pageNumber, bookStatus, authorStatus, dispatch]);
 
     return (<div className="container mt-4">
         <h2 className="text-center">Book Collection</h2>
@@ -46,6 +48,21 @@ const BookCollection = () => {
             })}
             </tbody>
         </table>
+        <div className="d-flex justify-content-center align-items-center mt-4">
+            <button
+                className="btn btn-primary mx-2" disabled={pageNumber === 1}
+                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}>
+                Prev
+            </button>
+
+            <span className="fs-5 mx-3">Page {pageNumber}</span>
+
+            <button className="btn btn-primary mx-2"
+                    onClick={() => setPageNumber((prev) => prev + 1)}>
+                Next
+            </button>
+        </div>
+
     </div>);
 };
 

@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
-    const response = await fetch("http://localhost:5144/books?pageNumber=1&pageSize=10", {
-        method: "GET", headers: {
-            "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", mode: "cors"
+export const fetchBooks = createAsyncThunk("books/fetchBooks", async ({pageNumber, pageSize}) => {
+    const response = await fetch(`http://localhost:5144/books?pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+        method: "GET", mode: "cors", headers: {
+            "Content-Type": "application/json", "Access-Control-Allow-Origin": "*",
         }
     });
+    if (!response.ok) {
+        throw new Error("Failed to fetch books");
+    }
     return await response.json();
 });
 

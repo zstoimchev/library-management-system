@@ -2,8 +2,8 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 export const fetchAuthors = createAsyncThunk("authors", async () => {
     const response = await fetch("http://localhost:5144/authors", {
-        method: "GET", headers: {
-            "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", mode: "cors"
+        method: "GET", mode: "cors", headers: {
+            "Content-Type": "application/json", "Access-Control-Allow-Origin": "*",
         }
     });
     return await response.json();
