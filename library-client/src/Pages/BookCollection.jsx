@@ -1,31 +1,13 @@
-import React, {useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchBooks} from "../Store/bookSlice";
-import {fetchAuthors} from "../Store/authorSlice";
+import React, {useState} from "react";
+import {useSelector} from "react-redux";
 
 const BookCollection = () => {
-    const dispatch = useDispatch();
     const books = useSelector((state) => state.books.books);
     const authors = useSelector((state) => state.authors.authors);
-    const bookStatus = useSelector((state) => state.books.status);
-    const authorStatus = useSelector((state) => state.authors.status);
     const [pageNumber, setPageNumber] = useState(1);
-    const pageSize = 10;
-
-    useEffect(() => {
-        if (bookStatus === "idle") {
-            dispatch(fetchBooks({pageNumber, pageSize}));
-        }
-        if (authorStatus === "idle") {
-            dispatch(fetchAuthors());
-        }
-    }, [pageNumber, bookStatus, authorStatus, dispatch]);
 
     return (<div className="container mt-4">
         <h2 className="text-center">Book Collection</h2>
-
-        {/*{status === "loading" && <p>Loading books...</p>}*/}
-        {/*{status === "failed" && <p>Error loading books.</p>}*/}
 
         <table className="table table-striped table-bordered">
             <thead className="table-dark">
