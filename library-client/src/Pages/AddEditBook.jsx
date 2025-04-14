@@ -1,6 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAuthors} from "../store/authorSlice";
 
 const AddEditBook = () => {
+    const dispatch = useDispatch();
+    const authors = useSelector((state) => state.authors.authors);
+    const status = useSelector((state) => state.authors.status);
+
+    useEffect(() => {
+        if (status === "idle") {
+            dispatch(fetchAuthors());
+        }
+    }, [status, dispatch]);
+
     return (
         <div className="container mt-4">
             <h2 className="text-center">Add New Book</h2>
@@ -19,11 +31,9 @@ const AddEditBook = () => {
                     <label htmlFor="authorSelect" className="form-label">Author of the Book</label>
                     <select className="form-select" id="authorSelect">
                         <option value="">Select an author</option>
-                        <option value="1">Author 1</option>
-                        <option value="2">Author 2</option>
-                        <option value="3">Author 3</option>
-                        <option value="4">Author 4</option>
-                        <option value="5">Author 5</option>
+                        {authors.map((author) => (
+                            <option key={author.id} value={author.id}>{author.name}</option>
+                        ))}
                     </select>
                 </div>
 

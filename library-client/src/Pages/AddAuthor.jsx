@@ -1,14 +1,15 @@
 import React, {useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {useDispatch} from "react-redux";
+import {fetchAuthors} from "../store/authorSlice";
 
 const AddAuthor = () => {
     const [author, setAuthor] = useState({Name: "", dateOfBirth: ""});
-
     const [state, setState] = useState({success: false, msg: ""});
-
     const handleChange = (e) => {
         setAuthor({...author, [e.target.id]: e.target.value});
     };
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,6 +43,7 @@ const AddAuthor = () => {
 
             console.log("Author added successfully!");
             setState({success: true, msg: "Author added successfully!"});
+            dispatch(fetchAuthors());
         } catch (error) {
             console.error("Error adding author:", error);
             setState({success: false, msg: "Error adding author"});
