@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useDispatch} from "react-redux";
-import {fetchAuthors} from "../store/authorSlice";
+import {fetchAuthors} from "../Store/authorSlice";
 
 const AddAuthor = () => {
     const [author, setAuthor] = useState({Name: "", dateOfBirth: ""});

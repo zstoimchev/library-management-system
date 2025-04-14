@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchAuthors} from "../store/authorSlice";
+import {fetchAuthors} from "../Store/authorSlice";
 
 const AddEditBook = () => {
     const dispatch = useDispatch();
