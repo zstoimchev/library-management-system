@@ -21,7 +21,7 @@ function App() {
         <Layout>
             <Routes>
                 <Route path="/" element={<BookCollection/>}/>
-                <Route path="/add-edit-book" element={<AddEditBook/>}/>
+                <Route path="/add-book" element={<AddEditBook/>}/>
                 <Route path="/add-author" element={<AddAuthor/>}/>
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>

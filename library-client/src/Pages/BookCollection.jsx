@@ -37,6 +37,10 @@ const BookCollection = () => {
         e.preventDefault();
         try {
             const response = await fetch(`http://localhost:5144/books/search?query=${(query.payload)}`)
+            if (response.status === 404) {
+                console.error("No books found");
+                return;
+            }
             if (!response.ok) {
                 console.error("Failed to fetch books");
                 return;
@@ -48,13 +52,32 @@ const BookCollection = () => {
         }
     }
 
+    const handleDelete = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:5144/books/${id}`, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                console.error("Failed to delete book");
+                return;
+            }
+            dispatch(fetchBooks({pageNumber, pageSize}));
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (<div className="container mt-4">
         <h2 className="text-center">Book Collection</h2>
         <form className="d-flex align-items-center">
             <input type="text" onChange={handleChange} className="form-control me-2" id="payload"
-                   placeholder="Search a book" name="payload"/>
+                   placeholder="Search a book" name="payload" value={query.payload} />
             <button type="submit" className="btn btn-primary me-2" name="payload" onClick={handleSearch}>Search</button>
-            <button type="button" className="btn btn-danger" onClick={() => setSearchedBooks([])}>Clear</button>
+            <button type="button" className="btn btn-danger" onClick={() => {
+                setSearchedBooks([])
+                setQuery({payload: ""})
+            }}>Clear
+            </button>
         </form>
 
         <table className="table table-striped table-bordered mt-2">
@@ -64,7 +87,7 @@ const BookCollection = () => {
                 <th>Name</th>
                 <th>Author</th>
                 <th>Publication Year</th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
             </thead>
             <tbody>
@@ -75,7 +98,10 @@ const BookCollection = () => {
                     <td>{book.title}</td>
                     <td>{author ? author.name : "Unknown"}</td>
                     <td>{book.publicationYear}</td>
-                    <td>Update / Delete</td>
+                    <td>
+                        <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(book.id)}>Delete
+                        </button>
+                    </td>
                 </tr>)
             })}
             </tbody>
