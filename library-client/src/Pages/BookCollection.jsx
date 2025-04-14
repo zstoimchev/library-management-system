@@ -8,43 +8,74 @@ const BookCollection = () => {
     const authors = useSelector((state) => state.authors.authors);
     const [pageNumber, setPageNumber] = useState(1);
     const pageSize = 10;
+    const [query, setQuery] = useState({payload: ""});
+    const [searchedBooks, setSearchedBooks] = useState([]);
 
     useEffect(() => {
-        dispatch(fetchBooks({ pageNumber, pageSize }));
+        dispatch(fetchBooks({pageNumber, pageSize}));
     }, [pageNumber, dispatch]);
 
     const handleNextPage = () => {
         setPageNumber(pageNumber + 1);
-        dispatch({ type: "books/setPageNumber", payload: pageNumber });
+        dispatch({type: "books/setPageNumber", payload: pageNumber});
     };
 
     const handlePrevPage = () => {
         if (pageNumber > 1) {
             setPageNumber(pageNumber - 1);
-            dispatch({ type: "books/setPageNumber", payload: pageNumber });
+            dispatch({type: "books/setPageNumber", payload: pageNumber});
         }
     };
 
+    const handleChange = (e) => {
+        setQuery({
+            ...query, [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:5144/books/search?query=${(query.payload)}`)
+            if (!response.ok) {
+                console.error("Failed to fetch books");
+                return;
+            }
+            const data = await response.json();
+            setSearchedBooks(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (<div className="container mt-4">
         <h2 className="text-center">Book Collection</h2>
+        <form className="d-flex align-items-center">
+            <input type="text" onChange={handleChange} className="form-control me-2" id="payload"
+                   placeholder="Search a book" name="payload"/>
+            <button type="submit" className="btn btn-primary me-2" name="payload" onClick={handleSearch}>Search</button>
+            <button type="button" className="btn btn-danger" onClick={() => setSearchedBooks([])}>Clear</button>
+        </form>
 
-        <table className="table table-striped table-bordered">
+        <table className="table table-striped table-bordered mt-2">
             <thead className="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Author</th>
                 <th>Publication Year</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            {books.map((book, index) => {
+            {(searchedBooks.length > 0 ? searchedBooks : books).map((book, index) => {
                 const author = authors.find((a) => a.id === book.authorId);
                 return (<tr key={book.id}>
                     <td>{(pageNumber - 1) * pageSize + (index + 1)}</td>
                     <td>{book.title}</td>
                     <td>{author ? author.name : "Unknown"}</td>
                     <td>{book.publicationYear}</td>
+                    <td>Update / Delete</td>
                 </tr>)
             })}
             </tbody>
