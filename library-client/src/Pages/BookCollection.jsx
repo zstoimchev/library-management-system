@@ -1,10 +1,29 @@
-import React, {useState} from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchBooks} from "../Store/bookSlice";
 
 const BookCollection = () => {
+    const dispatch = useDispatch();
     const books = useSelector((state) => state.books.books);
     const authors = useSelector((state) => state.authors.authors);
     const [pageNumber, setPageNumber] = useState(1);
+    const pageSize = 10;
+
+    useEffect(() => {
+        dispatch(fetchBooks({ pageNumber, pageSize }));
+    }, [pageNumber, dispatch]);
+
+    const handleNextPage = () => {
+        setPageNumber(pageNumber + 1);
+        dispatch({ type: "books/setPageNumber", payload: pageNumber });
+    };
+
+    const handlePrevPage = () => {
+        if (pageNumber > 1) {
+            setPageNumber(pageNumber - 1);
+            dispatch({ type: "books/setPageNumber", payload: pageNumber });
+        }
+    };
 
     return (<div className="container mt-4">
         <h2 className="text-center">Book Collection</h2>
@@ -22,7 +41,7 @@ const BookCollection = () => {
             {books.map((book, index) => {
                 const author = authors.find((a) => a.id === book.authorId);
                 return (<tr key={book.id}>
-                    <td>{index + 1}</td>
+                    <td>{(pageNumber - 1) * pageSize + (index + 1)}</td>
                     <td>{book.title}</td>
                     <td>{author ? author.name : "Unknown"}</td>
                     <td>{book.publicationYear}</td>
@@ -33,14 +52,14 @@ const BookCollection = () => {
         <div className="d-flex justify-content-center align-items-center mt-4">
             <button
                 className="btn btn-primary mx-2" disabled={pageNumber === 1}
-                onClick={() => setPageNumber((prev) => Math.max(prev - 1, 1))}>
+                onClick={handlePrevPage}>
                 Prev
             </button>
 
             <span className="fs-5 mx-3">Page {pageNumber}</span>
 
             <button className="btn btn-primary mx-2"
-                    onClick={() => setPageNumber((prev) => prev + 1)}>
+                    onClick={handleNextPage}>
                 Next
             </button>
         </div>
