@@ -16,6 +16,8 @@ const bookSlice = createSlice({
     name: "books",
     initialState: {
         books: [],
+        totalBooks: 0,
+        totalPages: 0,
         status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
         error: null,
     },
@@ -27,7 +29,9 @@ const bookSlice = createSlice({
             })
             .addCase(fetchBooks.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.books = action.payload;
+                state.books = action.payload.books;
+                state.totalBooks = action.payload.totalBooks;
+                state.totalPages = action.payload.totalPages;
             })
             .addCase(fetchBooks.rejected, (state, action) => {
                 state.status = "failed";

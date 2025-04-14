@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBooks} from "../Store/bookSlice";
+// import bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const BookCollection = () => {
     const dispatch = useDispatch();
@@ -10,6 +12,7 @@ const BookCollection = () => {
     const pageSize = 10;
     const [query, setQuery] = useState({payload: ""});
     const [searchedBooks, setSearchedBooks] = useState([]);
+    const totalPages = useSelector((state) => state.books.totalPages);
 
     useEffect(() => {
         dispatch(fetchBooks({pageNumber, pageSize}));
@@ -106,20 +109,32 @@ const BookCollection = () => {
             })}
             </tbody>
         </table>
-        <div className="d-flex justify-content-center align-items-center mt-4">
-            <button
-                className="btn btn-primary mx-2" disabled={pageNumber === 1}
-                onClick={handlePrevPage}>
-                Prev
-            </button>
 
-            <span className="fs-5 mx-3">Page {pageNumber}</span>
+        {totalPages > 1 && (
+            <div className="d-flex justify-content-center align-items-center mt-4">
+                <button className="btn btn-primary mx-2" disabled={pageNumber === 1}
+                        onClick={() => setPageNumber(1)}>
+                    <i className="bi bi-chevron-double-left m-2"></i> First
+                </button>
 
-            <button className="btn btn-primary mx-2"
-                    onClick={handleNextPage}>
-                Next
-            </button>
-        </div>
+                <button className="btn btn-primary mx-2" disabled={pageNumber === 1}
+                        onClick={handlePrevPage}>
+                    <i className="bi bi-arrow-left m-2"></i> Prev
+                </button>
+
+                <span className="fs-5 mx-3">Page {pageNumber} of {totalPages}</span>
+
+                <button className="btn btn-primary mx-2" disabled={pageNumber === totalPages}
+                        onClick={handleNextPage}>
+                    Next <i className="bi bi-arrow-right m-2"></i>
+                </button>
+
+                <button className="btn btn-primary mx-2" disabled={pageNumber === totalPages}
+                        onClick={() => setPageNumber(totalPages)}>
+                    Last <i className="bi bi-chevron-double-right m-2"></i>
+                </button>
+            </div>
+        )}
 
     </div>);
 };
