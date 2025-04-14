@@ -1,4 +1,5 @@
 using LibraryManagement.Data;
+using LibraryManagement.Dtos;
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +14,22 @@ public class BookRepository : IBookRepository
         this._context = context;
     }
 
-    public async Task<List<Book>> GetAllAsync(int pageNumber, int pageSize)
+    public async Task<PagedResultDto<Book>> GetAllAsync(int pageNumber, int pageSize)
     {
-        return await _context.Books.Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize).ToListAsync();
+        var totalItems = await _context.Books.CountAsync();
+        var books = await _context.Books
+            .OrderBy(item => item.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return new PagedResultDto<Book>
+        {
+            Books = books,
+            TotalBooks = totalItems,
+            TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+            CurrentPage = pageNumber,
+            PageSize = pageSize
+        };
     }
 
     public async Task<Book> CreateAsync(Book book)

@@ -21,7 +21,7 @@ public class BookController : ControllerBase
         [FromQuery] int pageSize)
     {
         var books = await _bookService.GetAllBooksAsync(pageNumber, pageSize);
-        return books.Count != 0 ? Ok(books) : NotFound();
+        return books.Books.Count != 0 ? Ok(books) : NotFound();
     }
 
     // POST /books: Add a new book
