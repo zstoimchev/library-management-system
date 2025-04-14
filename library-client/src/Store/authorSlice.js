@@ -1,19 +1,19 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 
 export const fetchAuthors = createAsyncThunk("authors", async () => {
-    const response = await fetch("https://localhost:7081/authors");
+    const response = await fetch("http://localhost:5144/authors", {
+        method: "GET", headers: {
+            "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", mode: "cors"
+        }
+    });
     return await response.json();
 });
 
 const authorSlice = createSlice({
-    name: "authors",
-    initialState: {
-        authors: [],
-        status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
+    name: "authors", initialState: {
+        authors: [], status: "idle", // 'idle' | 'loading' | 'succeeded' | 'failed'
         error: null,
-    },
-    reducers: {},
-    extraReducers: (builder) => {
+    }, reducers: {}, extraReducers: (builder) => {
         builder
             .addCase(fetchAuthors.pending, (state) => {
                 state.status = "loading";

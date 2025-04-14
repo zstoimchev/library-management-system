@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
-    const response = await fetch("https://localhost:7081/books?pageNumber=1&pageSize=10");
+    const response = await fetch("http://localhost:5144/books?pageNumber=1&pageSize=10", {
+        method: "GET", headers: {
+            "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", mode: "cors"
+        }
+    });
     return await response.json();
 });
 
