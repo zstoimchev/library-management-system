@@ -29,8 +29,8 @@ const AddAuthor = () => {
         }
 
         try {
-            const response = await fetch("https://localhost:7081/authors", {
-                method: "POST", mode:"cors", headers: {
+            const response = await fetch("http://localhost:5144/authors", {
+                method: "POST", mode: "cors", headers: {
                     "Content-Type": "application/json",
                 }, body: JSON.stringify({
                     Name: author.Name, DateOfBirth: date
