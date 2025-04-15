@@ -1,3 +1,4 @@
+using FuzzySharp;
 using LibraryManagement.Data;
 using LibraryManagement.Dtos;
 using LibraryManagement.Models;
@@ -69,11 +70,24 @@ public class BookRepository : IBookRepository
 
     public async Task<List<Book>> SearchAsync(string query)
     {
-        var queryResult = _context.Books.AsQueryable();
+        var allBooks = await _context.Books.ToListAsync();
+        var matchedBooks = new List<Book>();
 
-        if (!string.IsNullOrWhiteSpace(query))
-            queryResult = queryResult.Where(b => b.Title.Contains(query));
+        foreach (var book in allBooks)
+        {
+            if (book.Title.ToLower().Contains(query.ToLower()))
+            {
+                matchedBooks.Add(book);
+                continue;
+            }
 
-        return await queryResult.ToListAsync();
+            var ratio = Fuzz.Ratio(query.ToLower(), book.Title.ToLower());
+            if (ratio >= 80)
+            {
+                matchedBooks.Add(book);
+            }
+        }
+
+        return matchedBooks;
     }
 }
