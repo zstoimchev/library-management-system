@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchBooks} from "../Store/bookSlice";
 
-const AddEditBook = () => {
+const AddBook = () => {
     const [state, setState] = useState({success: false, msg: ""});
     const authors = useSelector((state) => state.authors.authors);
     const [book, setBook] = React.useState({name: "", publicationYear: "", authorId: ""});
@@ -78,4 +78,4 @@ const AddEditBook = () => {
     </div>);
 };
 
-export default AddEditBook;
+export default AddBook;

@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Layout from "./Components/Layout.jsx";
 import BookCollection from "./Pages/BookCollection.jsx";
-import AddEditBook from "./Pages/AddEditBook.jsx";
+import AddBook from "./Pages/AddBook.jsx";
 import AddAuthor from "./Pages/AddAuthor.jsx";
 import {useEffect} from "react";
 import {fetchBooks} from "./Store/bookSlice";
@@ -21,7 +21,7 @@ function App() {
         <Layout>
             <Routes>
                 <Route path="/" element={<BookCollection/>}/>
-                <Route path="/add-book" element={<AddEditBook/>}/>
+                <Route path="/add-book" element={<AddBook/>}/>
                 <Route path="/add-author" element={<AddAuthor/>}/>
                 <Route path="*" element={<Navigate to="/" replace/>}/>
             </Routes>
