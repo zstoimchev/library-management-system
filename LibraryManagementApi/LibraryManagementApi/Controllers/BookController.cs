@@ -28,6 +28,7 @@ public class BookController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<BookResponseDto>> Create([FromBody] BookRequestDto bookRequestDto)
     {
+        Console.WriteLine("---");
         var createdBook = await _bookService.CreateBook(bookRequestDto);
         return CreatedAtAction(nameof(GetAllBooks), new { id = createdBook.Id }, createdBook);
     }
