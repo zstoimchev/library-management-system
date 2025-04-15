@@ -13,6 +13,7 @@ const BookCollection = () => {
     const [query, setQuery] = useState({payload: ""});
     const [searchedBooks, setSearchedBooks] = useState([]);
     const totalPages = useSelector((state) => state.books.totalPages);
+    const [noResults, setNoResults] = useState(false);
 
     useEffect(() => {
         dispatch(fetchBooks({pageNumber, pageSize}));
@@ -40,16 +41,19 @@ const BookCollection = () => {
         e.preventDefault();
         try {
             const response = await fetch(`http://localhost:5144/books/search?query=${(query.payload)}`)
-            if (response.status === 404) {
-                console.error("No books found");
+            const data = await response.json();
+            if (response.status === 404 || (data.length === 0)) {
+                setNoResults(true);
+                setSearchedBooks([]);
                 return;
             }
             if (!response.ok) {
                 console.error("Failed to fetch books");
                 return;
             }
-            const data = await response.json();
+
             setSearchedBooks(data);
+            setNoResults(false);
         } catch (error) {
             console.error(error);
         }
@@ -74,14 +78,21 @@ const BookCollection = () => {
         <h2 className="text-center">Book Collection</h2>
         <form className="d-flex align-items-center">
             <input type="text" onChange={handleChange} className="form-control me-2" id="payload"
-                   placeholder="Search a book" name="payload" value={query.payload} />
+                   placeholder="Search a book" name="payload" value={query.payload}/>
             <button type="submit" className="btn btn-primary me-2" name="payload" onClick={handleSearch}>Search</button>
             <button type="button" className="btn btn-danger" onClick={() => {
                 setSearchedBooks([])
                 setQuery({payload: ""})
+                setNoResults(false)
             }}>Clear
             </button>
         </form>
+
+        {noResults && (
+            <div className="alert alert-warning mt-3" role="alert">
+                No results were found for your search.
+            </div>
+        )}
 
         <table className="table table-striped table-bordered mt-2">
             <thead className="table-dark">
