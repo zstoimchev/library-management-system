@@ -37,7 +37,7 @@ const AddEditBook = () => {
             }
             console.log("Book added successfully!");
             setState({success: true, msg: "Book added successfully!"});
-            dispatch(fetchBooks({ pageNumber: 1, pageSize: 10 }));
+            dispatch(fetchBooks({pageNumber: 1, pageSize: 10}));
         } catch (error) {
             console.error(error);
             setState({success: false, msg: "Error adding book"});
