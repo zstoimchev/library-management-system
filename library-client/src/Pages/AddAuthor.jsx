@@ -39,6 +39,7 @@ const AddAuthor = () => {
 
             if (!response.ok) {
                 console.error("failed to add author");
+                return;
             }
 
             console.log("Author added successfully!");
