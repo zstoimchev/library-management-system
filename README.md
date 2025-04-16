@@ -1,61 +1,64 @@
 # Library Management System
 
 ## Overview
-A basic Library Management System that lets you:
+A basic Library Management System that lets you to:
 - Add, view, and delete books
 - Manage authors
 - Search for books (fuzzy matching even though it needs improvements)
 
-## Setup
+## Setup Instructions
 
-### Backend (.NET 8)
-1. Install .NET 8 SDK
-2. Navigate into the backend folder
-3. Run these commands:
+### 1. Clone the repository
 ```bash
+git clone https://github.com/zstoimchev/library-management-system.git LibraryManagement
+cd LibraryManagement
+```
+
+### 2. Install Dependencies
+1. .NET SDK (version 8.0)
+2. PostgreSQL (latest version)
+3. Node (latest version)
+
+### 3. Set up the Database
+#### Update the appsettings.json file with your PostgreSQL credentials:
+```bash
+cd LibraryManagementApi/LibraryManagementApi
+nano appsettings.json
+```
+In appsettings.json, add your configuration string. For example:
+```bash
+"ConnectionStrings": {
+        "DefaultConnection": "Host=localhost;Database=database_name;Username=username;Password=password"
+    }
+```
+#### Apply Migrations:
+```c#
+dotnet ef database update
+```
+This will create the following tables: **Authors** and **Books**
+
+### 4. Start the backend (.NET 8)
+```c#
 dotnet restore
 dotnet run
 ```
 
-### Frontend (React)
-1. Install Node.js
-2. Navigate into the frontend folder
-3. Run these commands:
+### 5. Start the Frontend (React)
 ```bash
+cd ../../library-client
 npm install
 npm start
 ```
-
-### Database
-1. Install PostgreSQL
-2. Schema used:
-    ```sql
-        -- Authors table
-        CREATE TABLE Authors (
-            Id SERIAL PRIMARY KEY,
-            Name VARCHAR(255) NOT NULL,
-            DateOfBirth TIMESTAMP
-        );
-
-        -- Books table
-        CREATE TABLE Books (
-            Id SERIAL PRIMARY KEY,
-            Title VARCHAR(255) NOT NULL,
-            PublicationYear INTEGER NOT NULL,
-            AuthorId INTEGER REFERENCES Authors(Id) ON DELETE CASCADE
-        );
-
-        -- Index for better performance on foreign key
-        CREATE INDEX idx_books_authorid ON Books(AuthorId);
-    ```
+Open browser at localhost:3000
 
 ## How to Use
-1. Add authors first
-2. Then add books and assign authors
-3. Use the search bar to find books (works even if you make small typos)
+Open your browser and navigate to ***localhost:3000***.
+1. First add authors in the add authors tab
+2. After that proceed adding book, entering title, publication year and author
+3. Search books using the search bar (fuzzy matching, but still needs to be improved)
 
-## API Examples
-- GET `/books` - List all books
+## API Examples 
+- GET `/books?pageNumber=1&pageSize=10` - List all books (paginated)
 - POST `/books` - Add new book
 - GET `/books/search?query=harry` - Search books
 
