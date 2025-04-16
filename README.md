@@ -22,23 +22,23 @@ cd LibraryManagement
 ### 2. Set up the Database
 
 Update the database connection string in LibraryManagementApi/LibraryManagementApi/appsettings.json
-```bash
+```json
 "ConnectionStrings": {
     "DefaultConnection": "Host=localhost;Database=database_name;Username=username;Password=password"
 }
 ```
 Apply database migrations to create the **Authors** and **Books** tables:
-```c#
+```bash
 cd LibraryManagementApi/LibraryManagementApi
 dotnet ef database update
 ```
 
 ### 3. Start the backend (.NET 8)
-```c#
+```bash
 dotnet restore
 dotnet run
 ```
-The API will run at http://localhost:5000
+The API will run at http://localhost:5144
 
 ### 4. Start the Frontend (React)
 
@@ -55,26 +55,62 @@ Navigate to `http://localhost:3000` in your browser to access the application.
 1. **Add Authors**:
    - Go to the "Add Authors" tab.
    - Enter the author's name and date of birth.
-   - Click "Save" to add the author.
+   - Click "Submit" to save the author.
 
 2. **Add Books**:
    - Navigate to the "Add Book" tab.
    - Enter the book’s title, publication year, and select an author from the dropdown.
-   - Click "Save" to add the book.
+   - Click "Submit" to add the book.
 
 3. **Search Books**:
    - Use the search bar to find books by title.
    - **Note**: Fuzzy matching is still being improved and may not handle all edge cases.
 
-## API Examples 
-- GET `/books?pageNumber=1&pageSize=10` - List all books (paginated)
-- POST `/books` - Add new book
-- GET `/books/search?query=harry` - Search books
+
+## API Examples
+The backend API is accessible at `http://localhost:5144`. Below are example endpoints:
+
+- **GET `/books?pageNumber=1&pageSize=10`**  
+  Retrieves a paginated list of books.  
+  **Response** (200 OK):
+  ```json
+  {
+    "total": 25,
+    "books": [
+      { "id": 1, "title": "Harry Potter", "year": 1997, "author": "J.K. Rowling" },
+      ...
+    ]
+  }
+    ```
+
+- **POST `/books`**  
+  Adds a new book.  
+  **Request**:  
+  ```json
+  {
+    "title": "The Hobbit",
+    "publicationYear": 1937,
+    "authorId": 4
+  }
+  ```  
+  **Response** (201 Created):  
+  ```json
+  {
+    "id": 2,
+    "title": "The Hobbit",
+    "year": 1937,
+    "authorId": 4
+  }
+  ```  
+**Note**: Full API documentation is available at http://localhost:5144/swagger when the backend is running.
 
 
 ## Project Structure
 ```
-/LibraryManagementApi - .NET API code
-/library-client - React app
+/LibraryManagement
+├── /LibraryManagementApi  # .NET API code
+├── /library-client        # React app
+├── /Readme.md             # Project overview and setup instructions
+├──/Navodila.md            # Instructions for development
 ```
 
