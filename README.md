@@ -1,10 +1,9 @@
 # Library Management System
 
-## Overview
-A basic Library Management System that lets you to:
-- Add, view, and delete books
-- Manage authors
-- Search for books (fuzzy matching even though it needs improvements)
+The **Library Management System** is a web application designed to manage books and authors efficiently. Built with **.NET 8**, **React**, and **PostgreSQL**, it provides a simple interface for:
+- Adding, viewing, and deleting books
+- Managing author information
+- Searching books with fuzzy matching
 
 ## Setup Instructions
 
@@ -14,53 +13,64 @@ git clone https://github.com/zstoimchev/library-management-system.git LibraryMan
 cd LibraryManagement
 ```
 
-### 2. Install Dependencies
-1. .NET SDK (version 8.0)
-2. PostgreSQL (latest version)
-3. Node (latest version)
+### Install Dependencies
 
-### 3. Set up the Database
-#### Update the appsettings.json file with your PostgreSQL credentials:
-```bash
-cd LibraryManagementApi/LibraryManagementApi
-nano appsettings.json
-```
-In appsettings.json, add your configuration string. For example:
+- [.NET SDK 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [PostgreSQL 15+](https://www.postgresql.org/download/)
+- [Node.js 18+](https://nodejs.org/)
+
+### 2. Set up the Database
+
+Update the database connection string in LibraryManagementApi/LibraryManagementApi/appsettings.json
 ```bash
 "ConnectionStrings": {
-        "DefaultConnection": "Host=localhost;Database=database_name;Username=username;Password=password"
-    }
+    "DefaultConnection": "Host=localhost;Database=database_name;Username=username;Password=password"
+}
 ```
-#### Apply Migrations:
+Apply database migrations to create the **Authors** and **Books** tables:
 ```c#
+cd LibraryManagementApi/LibraryManagementApi
 dotnet ef database update
 ```
-This will create the following tables: **Authors** and **Books**
 
-### 4. Start the backend (.NET 8)
+### 3. Start the backend (.NET 8)
 ```c#
 dotnet restore
 dotnet run
 ```
+The API will run at http://localhost:5000
 
-### 5. Start the Frontend (React)
+### 4. Start the Frontend (React)
+
 ```bash
 cd ../../library-client
 npm install
 npm start
 ```
-Open browser at localhost:3000
+The frontend will open at http://localhost:3000
 
 ## How to Use
-Open your browser and navigate to ***localhost:3000***.
-1. First add authors in the add authors tab
-2. After that proceed adding book, entering title, publication year and author
-3. Search books using the search bar (fuzzy matching, but still needs to be improved)
+
+Navigate to `http://localhost:3000` in your browser to access the application.
+1. **Add Authors**:
+   - Go to the "Add Authors" tab.
+   - Enter the author's name and date of birth.
+   - Click "Save" to add the author.
+
+2. **Add Books**:
+   - Navigate to the "Add Book" tab.
+   - Enter the book’s title, publication year, and select an author from the dropdown.
+   - Click "Save" to add the book.
+
+3. **Search Books**:
+   - Use the search bar to find books by title.
+   - **Note**: Fuzzy matching is still being improved and may not handle all edge cases.
 
 ## API Examples 
 - GET `/books?pageNumber=1&pageSize=10` - List all books (paginated)
 - POST `/books` - Add new book
 - GET `/books/search?query=harry` - Search books
+
 
 ## Project Structure
 ```
