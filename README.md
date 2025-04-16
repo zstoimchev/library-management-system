@@ -111,6 +111,6 @@ The backend API is accessible at `http://localhost:5144`. Below are example endp
 ├── /LibraryManagementApi  # .NET API code
 ├── /library-client        # React app
 ├── /Readme.md             # Project overview and setup instructions
-├──/Navodila.md            # Instructions for development
+├── /Navodila.md            # Instructions for development
 ```
 
